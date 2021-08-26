@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300");
+
+@import "~bootstrap/scss/bootstrap";
+
+* {
+  font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 100;
+}
+
+.wtp-icon-sm {
+  width: 1.2rem;
+}
+
+.wtp-icon-md {
+  width: 1.8rem;
+}
+
+.wtp-icon-lg {
+  width: 2.8rem;
+}
+
+.twp-hidden {
+  opacity: 0;
+  transition: all .25s ease-in-out;
+}

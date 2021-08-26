@@ -1,13 +1,54 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { RouterStoreModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { compose } from '@ngrx/core/compose';
+import { StoreModule, combineReducers } from '@ngrx/store';
+import { routerReducer } from '@ngrx/router-store';
+import { storeLogger } from 'ngrx-store-logger';
+import { storeFreeze } from 'ngrx-store-freeze';
 
 import { AppComponent } from './app.component';
-import { HelloComponent } from './hello.component';
+
+import { playerReducer } from './+player/reducers/';
+
+import { PlayerModule } from './+player/modules/player.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, HelloComponent ],
-  bootstrap:    [ AppComponent ]
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+
+    PlayerModule,
+    AppRoutingModule,
+
+    StoreModule.provideStore(
+      compose(
+        storeFreeze,
+        storeLogger({
+          collapsed: true,
+          duration: false,
+          timestamp: false
+        }),
+        combineReducers
+      )({
+        router: routerReducer,
+
+        player: playerReducer
+      })
+    ),
+
+    RouterStoreModule.connectRouter(),
+    StoreDevtoolsModule.instrumentOnlyWithExtension()   // note that this must instrument after importing StoreModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
